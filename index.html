@@ -16,7 +16,7 @@ body{
     background-size: cover;
     display: flex;
     justify-content: center;
-    align-items: center; /* center the card vertically & horizontally */
+    align-items: center;
 }
 
 /* CARD */
@@ -57,17 +57,30 @@ button:hover{
 /* FLOATING TEXT */
 .floatText{
     position:absolute;
-    font-size:28px; /* enlarged font for clarity */
-    font-weight: 600;
-    opacity:.75;
-    animation: floatUp 8s linear forwards;
+    font-size:20px;
+    opacity:.65;
+    animation: floatUp 12s linear forwards;
     pointer-events:none;
-    text-shadow: 1px 1px 5px black; /* optional for readability */
+    text-shadow: 1px 1px 4px black;
+}
+
+/* SPECIAL TOP HEADER */
+.topHeader{
+    position:absolute;
+    top:10px;
+    width:100%;
+    text-align:center;
+    font-size:32px; /* slightly larger */
+    font-weight:bold;
+    color:white;
+    opacity:0.85;
+    pointer-events:none;
+    text-shadow: 1px 1px 6px black;
 }
 
 @keyframes floatUp{
-    from{transform:translateY(0);opacity:.75;}
-    to{transform:translateY(-520px);opacity:0;}
+    from{transform:translateY(0); opacity:.65;}
+    to{transform:translateY(-90vh); opacity:0;}
 }
 </style>
 </head>
@@ -124,14 +137,25 @@ const lines = [
 
 let quoteInterval = null;
 
+// function to float regular quotes
 function floatLine(text){
     const el = document.createElement("div");
     el.className = "floatText";
     el.innerText = text;
-    el.style.left = Math.random() * (window.innerWidth - 300) + "px"; // allow for bigger text
+    el.style.left = Math.random() * (window.innerWidth - 220) + "px";
     el.style.top = window.innerHeight + "px";
     document.body.appendChild(el);
-    setTimeout(()=>el.remove(),8000);
+    setTimeout(()=>el.remove(),12000);
+}
+
+// function to float the special top header
+function showTopHeader(){
+    const header = document.createElement("div");
+    header.className = "topHeader";
+    header.innerText = "To mi alma ❤️";
+    document.body.appendChild(header);
+    // fade out slowly with the song duration
+    setTimeout(()=>header.remove(), audio.duration * 1000);
 }
 
 /* YES BUTTON */
@@ -147,6 +171,9 @@ document.getElementById("yesBtn").onclick = ()=>{
     // play audio
     audio.currentTime=0;
     audio.play().catch(()=>{});
+
+    // show top header
+    showTopHeader();
 
     // floating quotes every 1.5 seconds
     let i = 0;
