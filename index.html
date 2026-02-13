@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Valentine’s Day ❤️</title>
+<style>
+    body {
+        margin: 0;
+        font-family: 'Arial', sans-serif;
+        background-color: #5B0000; /* wine red */
+        color: #fff;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .card {
+        background-color: #7F0019;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 30px rgba(0,0,0,0.5);
+        max-width: 400px;
+        transition: transform 0.3s ease;
+    }
+    .card.pop {
+        transform: scale(1.05);
+    }
+    h1 {
+        margin-bottom: 20px;
+    }
+    p {
+        margin-bottom: 30px;
+        font-size: 18px;
+        line-height: 1.5;
+    }
+    button {
+        background-color: #D11A2A;
+        border: none;
+        padding: 15px 30px;
+        margin: 10px;
+        border-radius: 10px;
+        font-size: 16px;
+        cursor: pointer;
+        color: #fff;
+        transition: 0.3s;
+    }
+    button:hover {
+        background-color: #FF385C;
+    }
+    iframe {
+        margin-top: 20px;
+        border: none;
+        width: 100%;
+        height: 80px;
+        border-radius: 10px;
+        display: none; /* hidden until yes clicked */
+    }
+    /* floating hearts */
+    .heart {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #FF385C;
+        transform: rotate(-45deg);
+        animation: float 2s linear forwards;
+        z-index: 999;
+    }
+    .heart::before,
+    .heart::after {
+        content: "";
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background-color: #FF385C;
+        border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+    /* sparkles */
+    .sparkle {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        background-color: #FFD700;
+        border-radius: 50%;
+        opacity: 0.8;
+        animation: sparkleAnim 1s linear forwards;
+        z-index: 1000;
+    }
+    @keyframes float {
+        0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
+        100% { transform: translateY(-400px) rotate(-45deg); opacity: 0; }
+    }
+    @keyframes sparkleAnim {
+        0% { transform: translateY(0) scale(1); opacity: 0.8; }
+        100% { transform: translateY(-300px) scale(0.5); opacity: 0; }
+    }
+</style>
+</head>
+<body>
+<div class="card" id="card">
+    <h1>To my love ❤️</h1>
+    <p>You mean the world to me. Will you be my forever?</p>
+    <button id="yesBtn">Yes ❤️</button>
+    <button id="noBtn">No 💔</button>
+
+    <!-- YouTube song embed -->
+    <iframe id="song" src="https://www.youtube.com/embed/9d1fGsmJ1hU?autoplay=1&controls=1"></iframe>
+</div>
+
+<script>
+const yesBtn = document.getElementById('yesBtn');
+const noBtn = document.getElementById('noBtn');
+const song = document.getElementById('song');
+const card = document.getElementById('card');
+
+function createHeart(x, y) {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.style.left = x + 'px';
+    heart.style.top = y + 'px';
+    heart.style.animationDuration = 2 + Math.random() * 1 + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 2000);
+
+    // create sparkles
+    for(let i=0;i<3;i++){
+        const sparkle = document.createElement('div');
+        sparkle.classList.add('sparkle');
+        sparkle.style.left = x + (Math.random()*20-10) + 'px';
+        sparkle.style.top = y + (Math.random()*20-10) + 'px';
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 1000);
+    }
+}
+
+yesBtn.addEventListener('click', () => {
+    song.style.display = 'block';
+    card.classList.add('pop');
+    setTimeout(() => card.classList.remove('pop'), 500);
+
+    // hearts float from the button
+    const rect = yesBtn.getBoundingClientRect();
+    const heartInterval = setInterval(() => {
+        createHeart(rect.left + rect.width/2, rect.top);
+    }, 200);
+
+    // stop after 5 seconds
+    setTimeout(() => clearInterval(heartInterval), 5000);
+});
+
+noBtn.addEventListener('click', () => {
+    const confirmNo = confirm("Are you sure? I really hope you love me ❤️");
+    if(confirmNo) {
+        alert("Oh no 😢 maybe next time...");
+    }
+});
+</script>
+</body>
+</html>
