@@ -3,161 +3,185 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Happy Valentine’s Day ❤️</title>
+<title>Mi Alma ❤️</title>
+
 <style>
-    body {
-        margin: 0;
-        font-family: 'Arial', sans-serif;
-        background-color: #5B0000; /* wine red */
-        color: #fff;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-        overflow: hidden;
-    }
-    .card {
-        background-color: #7F0019;
-        padding: 40px;
-        border-radius: 20px;
-        text-align: center;
-        box-shadow: 0 0 30px rgba(0,0,0,0.5);
-        max-width: 400px;
-        transition: transform 0.3s ease;
-    }
-    .card.pop {
-        transform: scale(1.05);
-    }
-    h1 {
-        margin-bottom: 20px;
-    }
-    p {
-        margin-bottom: 30px;
-        font-size: 18px;
-        line-height: 1.5;
-    }
-    button {
-        background-color: #D11A2A;
-        border: none;
-        padding: 15px 30px;
-        margin: 10px;
-        border-radius: 10px;
-        font-size: 16px;
-        cursor: pointer;
-        color: #fff;
-        transition: 0.3s;
-    }
-    button:hover {
-        background-color: #FF385C;
-    }
-    iframe {
-        margin-top: 20px;
-        border: none;
-        width: 100%;
-        height: 80px;
-        border-radius: 10px;
-        display: none; /* hidden until yes clicked */
-    }
-    /* floating hearts */
-    .heart {
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background-color: #FF385C;
-        transform: rotate(-45deg);
-        animation: float 2s linear forwards;
-        z-index: 999;
-    }
-    .heart::before,
-    .heart::after {
-        content: "";
-        position: absolute;
-        width: 20px;
-        height: 20px;
-        background-color: #FF385C;
-        border-radius: 50%;
-    }
-    .heart::before { top: -10px; left: 0; }
-    .heart::after { left: 10px; top: 0; }
-    /* sparkles */
-    .sparkle {
-        position: absolute;
-        width: 6px;
-        height: 6px;
-        background-color: #FFD700;
-        border-radius: 50%;
-        opacity: 0.8;
-        animation: sparkleAnim 1s linear forwards;
-        z-index: 1000;
-    }
-    @keyframes float {
-        0% { transform: translateY(0) rotate(-45deg); opacity: 1; }
-        100% { transform: translateY(-400px) rotate(-45deg); opacity: 0; }
-    }
-    @keyframes sparkleAnim {
-        0% { transform: translateY(0) scale(1); opacity: 0.8; }
-        100% { transform: translateY(-300px) scale(0.5); opacity: 0; }
-    }
+body{
+    margin:0;
+    height:100vh;
+    overflow:hidden;
+    font-family:'Segoe UI',sans-serif;
+    color:white;
+    background: url('pic 3.jpg') no-repeat center center fixed;
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* center the card vertically & horizontally */
+}
+
+/* CARD */
+.card{
+    position:relative;
+    background:rgba(0,0,0,0.35);
+    backdrop-filter: blur(12px);
+    padding:50px 40px;
+    border-radius:18px;
+    text-align:center;
+    width:90%;
+    max-width:480px;
+    z-index:2;
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+    transition: all .6s ease;
+}
+
+.card.pop{ transform:scale(1.06); }
+.card.fadeOut{ opacity:0; transform:scale(.9); pointer-events:none; }
+
+button{
+    background:#a3002a;
+    border:none;
+    color:white;
+    padding:16px 32px;
+    border-radius:12px;
+    font-size:18px;
+    margin:12px;
+    cursor:pointer;
+    transition:.25s;
+}
+
+button:hover{
+    background:#d1003a;
+    transform:translateY(-2px);
+}
+
+/* FLOATING TEXT */
+.floatText{
+    position:absolute;
+    font-size:28px; /* enlarged font for clarity */
+    font-weight: 600;
+    opacity:.75;
+    animation: floatUp 8s linear forwards;
+    pointer-events:none;
+    text-shadow: 1px 1px 5px black; /* optional for readability */
+}
+
+@keyframes floatUp{
+    from{transform:translateY(0);opacity:.75;}
+    to{transform:translateY(-520px);opacity:0;}
+}
 </style>
 </head>
+
 <body>
+
+<!-- AUDIO -->
+<audio id="loveSong" preload="auto">
+    <source src="audio.mpeg" type="audio/mpeg">
+</audio>
+
+<!-- CARD -->
 <div class="card" id="card">
-    <h1>To my love ❤️</h1>
-    <p>You mean the world to me. Will you be my forever?</p>
+    <h1>To mi alma ❤️</h1>
+    <p>I made this for you.</p>
+    <h2>Do you love me?</h2>
+
     <button id="yesBtn">Yes ❤️</button>
     <button id="noBtn">No 💔</button>
-
-    <!-- YouTube song embed -->
-    <iframe id="song" src="https://www.youtube.com/embed/9d1fGsmJ1hU?autoplay=1&controls=1"></iframe>
 </div>
 
 <script>
-const yesBtn = document.getElementById('yesBtn');
-const noBtn = document.getElementById('noBtn');
-const song = document.getElementById('song');
-const card = document.getElementById('card');
+const audio = document.getElementById("loveSong");
+const body = document.body;
 
-function createHeart(x, y) {
-    const heart = document.createElement('div');
-    heart.classList.add('heart');
-    heart.style.left = x + 'px';
-    heart.style.top = y + 'px';
-    heart.style.animationDuration = 2 + Math.random() * 1 + 's';
-    document.body.appendChild(heart);
-    setTimeout(() => heart.remove(), 2000);
+const lines = [
+"Love hurts — but it’s worth it with you",
+"We keep our moments forever",
+"Memories don’t fade — they stay",
+"Close feels closer with you",
+"You’re never alone — not with me",
+"Time stops when it’s us",
+"Hold this — it’s real",
+"Come back to me — always",
+"You feel like home",
+"Still you — every time",
+"No noise — just us",
+"Simple. Real. Ours.",
+"I choose you — quietly and fully",
+"Even distance doesn’t change this",
+"My calm place",
+"This is not temporary",
+"Locked in — heart level",
+"No acting — just feeling",
+"You matter — more than you think",
+"My favorite presence",
+"Same choice — every day",
+"If it’s you — I’m there",
+"Real stays",
+"I'm not loud — but I'm sure",
+"You’re my person",
+"Still choosing you"
+];
 
-    // create sparkles
-    for(let i=0;i<3;i++){
-        const sparkle = document.createElement('div');
-        sparkle.classList.add('sparkle');
-        sparkle.style.left = x + (Math.random()*20-10) + 'px';
-        sparkle.style.top = y + (Math.random()*20-10) + 'px';
-        document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 1000);
-    }
+let quoteInterval = null;
+
+function floatLine(text){
+    const el = document.createElement("div");
+    el.className = "floatText";
+    el.innerText = text;
+    el.style.left = Math.random() * (window.innerWidth - 300) + "px"; // allow for bigger text
+    el.style.top = window.innerHeight + "px";
+    document.body.appendChild(el);
+    setTimeout(()=>el.remove(),8000);
 }
 
-yesBtn.addEventListener('click', () => {
-    song.style.display = 'block';
-    card.classList.add('pop');
-    setTimeout(() => card.classList.remove('pop'), 500);
+/* YES BUTTON */
+document.getElementById("yesBtn").onclick = ()=>{
+    const card = document.getElementById("card");
+    card.classList.add("pop");
+    setTimeout(()=>card.classList.add("fadeOut"),400);
 
-    // hearts float from the button
-    const rect = yesBtn.getBoundingClientRect();
-    const heartInterval = setInterval(() => {
-        createHeart(rect.left + rect.width/2, rect.top);
-    }, 200);
+    // Change background to pic2.jpg
+    body.style.background = "url('pic 2.jpg') no-repeat center center fixed";
+    body.style.backgroundSize = "cover";
 
-    // stop after 5 seconds
-    setTimeout(() => clearInterval(heartInterval), 5000);
+    // play audio
+    audio.currentTime=0;
+    audio.play().catch(()=>{});
+
+    // floating quotes every 1.5 seconds
+    let i = 0;
+    quoteInterval = setInterval(()=>{
+        floatLine(lines[i % lines.length]);
+        i++;
+    }, 1500);
+};
+
+// stop floating lines when audio ends
+audio.addEventListener("ended", ()=>{
+    clearInterval(quoteInterval);
 });
 
-noBtn.addEventListener('click', () => {
-    const confirmNo = confirm("Are you sure? I really hope you love me ❤️");
-    if(confirmNo) {
-        alert("Oh no 😢 maybe next time...");
-    }
+/* NO BUTTON RUN AWAY EFFECT */
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseenter", () => {
+    const vw = window.innerWidth;
+    const vh = window.innerHeight;
+
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = vw - btnWidth - 20;
+    const maxY = vh - btnHeight - 20;
+
+    const randomX = Math.random() * maxX;
+    const randomY = Math.random() * maxY;
+
+    noBtn.style.position = "absolute";
+    noBtn.style.left = randomX + "px";
+    noBtn.style.top = randomY + "px";
+    noBtn.style.transition = "all 0.3s ease";
 });
 </script>
+
 </body>
 </html>
